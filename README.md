@@ -8,3 +8,8 @@ Features:
   
   
 Made with machine learning resources by FreeCodeCamp <3
+
+TODO:
+
+  * Fix problem where AI will hit itself
+  * Extend the model to train on Connect4 against itself
