@@ -5,7 +5,7 @@ from collections import namedtuple
 import numpy as np
 
 pygame.init()
-font = pygame.font.Font('arial.ttf', 25)
+font = pygame.font.Font('arial.ttf', 20)
 #font = pygame.font.SysFont('arial', 25)
 
 class Direction(Enum):
@@ -18,19 +18,23 @@ Point = namedtuple('Point', 'x, y')
 
 # colors
 WHITE = (255, 255, 255)
-RED = (255,80,80)
+GRAY = (0, 25, 51)
+RED1 = (181, 0, 0)
+RED2 = (255, 80, 80)
 GREEN1 = (0, 153, 0)
 GREEN2 = (102, 255, 51)
-BLACK = (0,0,0)
+BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
 
 class SnakeGameAI:
 
-    def __init__(self, w=640, h=480, speed=30):
+    def __init__(self, nth_game = 0, w=640, h=480, speed=5, hiScore = 0):
         self.w = w
         self.h = h
         self.speed = speed
+        self.nth_game = nth_game
+        self.hi_score = hiScore
         # init display
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
@@ -51,6 +55,7 @@ class SnakeGameAI:
         self.food = None
         self._place_food()
         self.frame_iteration = 0
+        self.nth_game = self.nth_game + 1
 
 
     def _place_food(self):
@@ -70,9 +75,9 @@ class SnakeGameAI:
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    self.speed = self.speed + 20
+                    self.speed = min(self.speed + 5, 500)
                 elif event.key == pygame.K_DOWN:
-                    self.speed = max(self.speed - 20, 1)
+                    self.speed = max(self.speed - 5, 1)
         
         # 2. move
         self._move(action) # update the head
@@ -117,14 +122,29 @@ class SnakeGameAI:
     def _update_ui(self):
         self.display.fill(BLACK)
 
+        for i in range (self.w//BLOCK_SIZE):
+            for j in range (self.h//BLOCK_SIZE):
+                pygame.draw.rect(self.display, GRAY, pygame.Rect(i* BLOCK_SIZE, j*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 2)
+
         for pt in self.snake:
-            pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x-.66, pt.y-.66, BLOCK_SIZE+2, BLOCK_SIZE+2))
-            pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x, pt.y, 14, 14))
+            pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x-1, pt.y-1, BLOCK_SIZE+2, BLOCK_SIZE+2))
+            pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x+3, pt.y+3, 15, 15))
 
-        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(self.display, RED1, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(self.display, RED2, pygame.Rect(self.food.x+3, self.food.y+3, 14, 14))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
-        self.display.blit(text, [0, 0])
+        text1 = font.render("Score: " + str(self.score), True, WHITE)
+        text2 = font.render("AI Generation: " + str(self.nth_game), True, WHITE)
+        text3 = font.render("Press up/down arrows to increase/decrease speed!", True, WHITE)
+        self.hi_score = max(self.hi_score,self.score)
+        text4 = font.render("Highest Score: " + str(self.hi_score), True, WHITE)
+        text5 = font.render("Speed: " + str(self.speed), True, WHITE)
+
+        self.display.blit(text1, [6, 5])
+        self.display.blit(text2, [6, 28])
+        self.display.blit(text3, [6, 450])
+        self.display.blit(text4, [111, 6])
+        self.display.blit(text5, [6, 429])
         pygame.display.flip()
 
 
