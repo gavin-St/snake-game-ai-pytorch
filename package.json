@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "matplotlib": "^1.0.0",
+    "pip": "^0.0.1",
+    "torch": "^0.2.7"
+  }
+}
