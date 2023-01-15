@@ -23,6 +23,7 @@ RED1 = (181, 0, 0)
 RED2 = (255, 80, 80)
 GREEN1 = (0, 153, 0)
 GREEN2 = (102, 255, 51)
+GREEN3 = (210, 255, 77)
 BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
@@ -129,6 +130,10 @@ class SnakeGameAI:
         for pt in self.snake:
             pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x-1, pt.y-1, BLOCK_SIZE+2, BLOCK_SIZE+2))
             pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x+3, pt.y+3, 15, 15))
+        for pt in self.snake:
+            pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x-1, pt.y-1, BLOCK_SIZE+2, BLOCK_SIZE+2))
+            pygame.draw.rect(self.display, GREEN3, pygame.Rect(pt.x+3, pt.y+3, 15, 15))
+            break
 
         pygame.draw.rect(self.display, RED1, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
         pygame.draw.rect(self.display, RED2, pygame.Rect(self.food.x+3, self.food.y+3, 14, 14))
