@@ -4,13 +4,18 @@ Made with pygame and Pytorch Reinforcement Learning (DQN)
 
 
 Features:
-  model
+  * Fully functioning Snake Game UI
+  * Self learning Deep Q model which stores states of game and predicts the best return value out of all possible actions
+  * Adjustable frame rate to speed up training process
+  * Statistics and regression stored displayed
   
   
 
 TODO:
   * Fix problem where AI will hit itself
-  * Extend the model to train on Connect4 against itself
+  * Extend the model to train on other games Connect4 against itself
 
-
-Made with help from machine learning resources by FreeCodeCamp <3
+Built with:
+  * PyGame
+  * PyTorch
+  * NumPy
